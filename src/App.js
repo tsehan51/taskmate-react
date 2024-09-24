@@ -1,25 +1,28 @@
-import logo from './logo.svg';
+import { useState } from 'react';
+import { useEffect } from 'react';
+import { Header } from './components/Header';
+import { AddTask } from './components/AddTask';
+import { ShowTask } from './components/ShowTask';
 import './App.css';
 
+
 function App() {
+  const [tasklist, setTasklist] = useState(JSON.parse(localStorage.getItem('tasklist')) || []);
+  const [editTask, setEditTask] = useState({});
+
+  useEffect(()=>{
+    localStorage.setItem('tasklist', JSON.stringify(tasklist));
+  }, [tasklist]);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header/>
+      <AddTask tasklist={tasklist} setTasklist={setTasklist} editTask={editTask} setEditTask={setEditTask} />
+      <ShowTask tasklist={tasklist} setTasklist={setTasklist} editTask={editTask} setEditTask={setEditTask} />
     </div>
   );
 }
 
 export default App;
+
+
